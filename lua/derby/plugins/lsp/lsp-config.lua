@@ -50,17 +50,19 @@ lspconfig["docker_compose_language_service"].setup({
 	on_attach = on_attach,
 })
 
+local util = require("lspconfig/util")
 lspconfig["gopls"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 	cmd = { "gopls" },
 	filetypes = { "go", "gomod", "gowork", "gotmpl", "gosum" },
+	root_dir = util.root_pattern("go.work", "go.mod", "git"),
 	settings = {
 		gopls = {
 			completeUnimported = true,
-			userPlaceholders = true,
+			usePlaceholders = true,
 			analyses = {
-				unusedparams = true,
+				unusedparamas = true,
 			},
 		},
 	},

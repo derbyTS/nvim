@@ -34,7 +34,6 @@ vim.keymap.set("n", "<leader>se", ":MaximizerToggle<CR>")
 -- nvim tree maximizer
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
 
-
 -- telescope
 vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
 vim.keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
@@ -42,3 +41,9 @@ vim.keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find stri
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
 
+-- Mapping for Shift+Enter to move to the next line in insert mode
+vim.keymap.set("i", "<S-Enter>", "<Esc>o", { noremap = true, silent = true })
+
+-- Custom mappings for left and right navigation in insert mode
+vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
