@@ -47,3 +47,9 @@ vim.keymap.set("i", "<S-Enter>", "<Esc>o", { noremap = true, silent = true })
 -- Custom mappings for left and right navigation in insert mode
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true, silent = true })
+
+-- next word and previous word in insert mode
+vim.keymap.set("i", "<C-w>", "<Right><C-o>w", { noremap = true })
+vim.keymap.set("i", "<C-b>", "<Left><C-o>b", { noremap = true })
