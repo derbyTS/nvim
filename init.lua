@@ -13,8 +13,3 @@ require("derby.plugins.lsp.null-ls")
 require("derby.plugins.autopairs")
 require("derby.plugins.treesitter")
 require("derby.plugins.gitsigns")
-
-
-
-
-
