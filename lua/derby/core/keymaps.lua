@@ -53,3 +53,25 @@ vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true, silent = true })
 -- next word and previous word in insert mode
 vim.keymap.set("i", "<C-w>", "<Right><C-o>w", { noremap = true })
 vim.keymap.set("i", "<C-b>", "<Left><C-o>b", { noremap = true })
+
+-- Wrap
+vim.keymap.set("n", "<leader>wr", ":set wrap!<CR>", { noremap = true, silent = true })
+
+-- Move highlited up/down
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- Remain cursor where it is
+vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- Allow pasting without copying the deleted text
+vim.keymap.set("x", "<leader>p", [["_dP]])
+
+-- Delete and Paste
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+
+vim.keymap.set("n", "Q", "<nop>")
