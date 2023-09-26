@@ -23,7 +23,7 @@ vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current bu
 vim.keymap.set("n", "<leader>bc", ":windo diffthis<CR>", { noremap = true })
 
 -- Disable diff mode for all windows
-vim.keymap.set("n", "<leader>bd", ":windo diffoff<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>bcx", ":windo diffoff<CR>", { noremap = true })
 
 -- Clear search highlighting
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { noremap = true })

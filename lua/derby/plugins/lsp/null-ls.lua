@@ -20,6 +20,7 @@ null_ls.setup({
 		formatting.jq,
 		formatting.google_java_format,
 		formatting.golines,
+		formatting.clang_format,
 		formatting.goimports_reviser,
 		formatting.gofumpt,
 		formatting.prettier, -- js/ts formatter
