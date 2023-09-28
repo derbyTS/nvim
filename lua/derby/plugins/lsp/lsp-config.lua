@@ -100,6 +100,10 @@ lspconfig["jdtls"].setup({
 	settings = {
 		java = {
 			classpath = "/Library/Java/JavaVirtualMachines/jdk-18.0.1.1.jdk/",
+
+			formatting = {
+				tabSize = 4, -- Adjust this value to your preferred tab size
+			},
 			completeUnimported = true,
 			signatureHelp = { enabled = true }, -- Enable signature help (parameter hints)
 			contentProvider = { preferred = "fernflower" }, -- Preferred decompiler for class files
@@ -113,6 +117,9 @@ lspconfig["jdtls"].setup({
 					},
 				},
 			},
+		},
+		editor = {
+			tabSize = 4,
 		},
 	},
 })

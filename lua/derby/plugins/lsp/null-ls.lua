@@ -17,20 +17,26 @@ null_ls.setup({
 	sources = {
 		--  to disable file types use
 		--  "formatting.prettier.with({disabled_filetypes = {}})" (see null-ls docs)
-		formatting.jq,
-		formatting.google_java_format,
+		-- formatting.jq,
+		-- formatting.google_java_format,
 		formatting.golines,
-		formatting.clang_format,
+		-- formatting.clang_format,
+		formatting.clang_format.with({
+			extra_args = {
+				"-style=WebKit",
+               -- "--indent=spaces=4",
+			},
+		}),
 		formatting.goimports_reviser,
 		formatting.gofumpt,
-		formatting.prettier, -- js/ts formatter
+		-- formatting.prettier, -- js/ts formatter
 		formatting.stylua, -- lua formatter
-		diagnostics.eslint_d.with({ -- js/ts linter
-			-- only enable eslint if root has .esl:intrc.js (not in youtube nvim video)
-			condition = function(utils)
-				return utils.root_has_file(".eslintrc.js") -- change file extension if you use something else
-			end,
-		}),
+		-- diagnostics.eslint_d.with({ -- js/ts linter
+		-- 	-- only enable eslint if root has .esl:intrc.js (not in youtube nvim video)
+		-- 	condition = function(utils)
+		-- 		return utils.root_has_file(".eslintrc.js") -- change file extension if you use something else
+		-- 	end,
+		-- }),
 	},
 	-- configure format on save
 	on_attach = function(current_client, bufnr)

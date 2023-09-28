@@ -52,7 +52,6 @@ mason_null_ls.setup({
 		"eslint_d", -- ts/js linter
 		"yamlfmt",
 		"sonarlint-language-server",
-		"google-java-format",
 		"golines",
 		"jq",
 		"gofumpt",
