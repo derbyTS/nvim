@@ -21,11 +21,12 @@ null_ls.setup({
 		-- formatting.google_java_format,
 		formatting.golines,
 		-- formatting.clang_format,
-        formatting.clang_format.with({
-            extra_args = {
-                "-style=Chromium",
-                -- "UseTabStyle=Always",
-            }
+		formatting.clang_format.with({
+			extra_args = {
+				-- "-style=Chromium",
+				"-style={BasedOnStyle: Chromium, IndentWidth: 4}",
+				-- "-indent-width=4",
+			},
 		}),
 		formatting.goimports_reviser,
 		formatting.gofumpt,
