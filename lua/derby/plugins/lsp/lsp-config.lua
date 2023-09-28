@@ -47,11 +47,14 @@ lspconfig["ansiblels"].setup({
 lspconfig["clangd"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
-
-lspconfig["clangd"].setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
+	settings = {
+		clangd = {
+			format = {
+				style = "file",
+				tabSize = 2,
+			},
+		},
+	},
 })
 
 lspconfig["bashls"].setup({

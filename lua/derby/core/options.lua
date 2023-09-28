@@ -11,6 +11,16 @@ opt.shiftwidth = 4
 opt.expandtab = false
 opt.autoindent = true
 
+-- Set different tab settings for C files using LSP
+vim.cmd([[
+    augroup C_LSP_TabSettings
+        autocmd!
+        autocmd FileType c,cpp lua vim.opt.tabstop = 2
+        autocmd FileType c,cpp lua vim.opt.shiftwidth = 2
+        autocmd FileType c,cpp lua vim.opt.expandtab = true
+    augroup END
+]])
+
 -- line wrapping
 -- opt.wrap = true
 
