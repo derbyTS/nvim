@@ -18,12 +18,11 @@ null_ls.setup({
 		--  to disable file types use
 		--  "formatting.prettier.with({disabled_filetypes = {}})" (see null-ls docs)
 		-- formatting.jq,
-		-- formatting.google_java_format,
 		formatting.golines,
-		-- formatting.clang_format,
 		formatting.clang_format.with({
 			extra_args = {
-				"-style={BasedOnStyle: Chromium, IndentWidth: 4, UseTab: Always}",
+				-- "-style={BasedOnStyle: Chromium, IndentWidth: 4}",
+				"-style={BasedOnStyle: Google, IndentWidth: 4}",
 			},
 		}),
 		formatting.goimports_reviser,
