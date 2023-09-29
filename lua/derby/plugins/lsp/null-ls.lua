@@ -23,9 +23,7 @@ null_ls.setup({
 		-- formatting.clang_format,
 		formatting.clang_format.with({
 			extra_args = {
-				-- "-style=Chromium",
-				"-style={BasedOnStyle: Chromium, IndentWidth: 4}",
-				-- "-indent-width=4",
+				"-style={BasedOnStyle: Chromium, IndentWidth: 4, UseTab: Always}",
 			},
 		}),
 		formatting.goimports_reviser,
