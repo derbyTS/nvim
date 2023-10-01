@@ -11,6 +11,7 @@ local colorscheme = require("lualine.themes.auto")
 			FF8B99 = "#FF8B99",
 			FFDA7B = "#FFCCD1",
 			FF3F56 = "#FF3F56",
+			fg = "black",
 		}
 
 
@@ -21,7 +22,7 @@ local colorscheme = require("lualine.themes.auto")
 			a = {
 				gui = "bold",
 				bg = new_colors.FF3F56,
-				fg = new_colors.black, -- black
+				fg = new_colors.fg,
 			},
 		}
 

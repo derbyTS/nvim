@@ -77,4 +77,7 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 vim.keymap.set("n", "Q", "<nop>")
 
 -- Esc
-vim.keymap.set("i", "<C-c", "<Esc>")
+vim.keymap.set("i", "<C-c>", "<Esc>")
+
+-- Color toggle
+vim.keymap.set("n", "<leader>color", ":ColorizerToggle<CR>")
