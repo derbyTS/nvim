@@ -21,6 +21,12 @@ opt.autoindent = true
 --     augroup END
 -- ]])
 
+-- vim.cmd([[
+--   autocmd FileType c setlocal tabstop=2 shiftwidth=2
+--   autocmd FileType cpp setlocal tabstop=2 shiftwidth=2
+--   autocmd FileType java setlocal tabstop=2 shiftwidth=2
+-- ]])
+
 -- line wrapping
 -- opt.wrap = true
 
