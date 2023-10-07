@@ -81,3 +81,10 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 -- Color toggle
 vim.keymap.set("n", "<leader>color", ":ColorizerToggle<CR>")
+
+-- GO DAP
+vim.keymap.set("n", "<leader>dt", ':lua require("dapui").toggle()<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>deb", [[<Cmd>lua require('dap-go').debug_test()<CR>]], { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>dclear", ':lua require("dap").clear_breakpoints()<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>dc", ":DapContinue<CR>", { noremap = true })

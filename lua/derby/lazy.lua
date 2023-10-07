@@ -11,15 +11,18 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "derby.plugins" }, { import = "derby.plugins.lsp" } }, {
-  install = {
-    colorscheme = { "rose-pine" },
-  },
-  checker = {
-    enabled = true,
-    notify = false,
-  },
-  change_detection = {
-    notify = false,
-  },
-})
+require("lazy").setup(
+	{ { import = "derby.plugins" }, { import = "derby.plugins.lsp" }, { import = "derby.plugins.godap" } },
+	{
+		install = {
+			colorscheme = { "rose-pine" },
+		},
+		checker = {
+			enabled = true,
+			notify = false,
+		},
+		change_detection = {
+			notify = false,
+		},
+	}
+)
