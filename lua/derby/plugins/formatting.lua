@@ -24,16 +24,12 @@ return {
 				c = {
 					{
 						"clang_format",
-						"-assume-filename",
-						"$FILENAME",
 						"-style={BasedOnStyle: LLVM, IndentWidth: 4}",
 					},
 				},
 				cpp = {
 					{
 						"clang_format",
-						"-assume-filename",
-						"$FILENAME",
 						"-style={BasedOnStyle: Google, IndentWidth: 4}",
 					},
 				},
