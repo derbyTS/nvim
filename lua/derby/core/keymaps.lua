@@ -84,7 +84,30 @@ vim.keymap.set("n", "<leader>color", ":ColorizerToggle<CR>")
 
 -- GO DAP
 vim.keymap.set("n", "<leader>dt", ':lua require("dapui").toggle()<CR>', { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>deb", [[<Cmd>lua require('dap-go').debug_test()<CR>]], { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>deb", [[<Cmd>lua require('dap-go').debug_test()<CR>]], { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>dclear", ':lua require("dap").clear_breakpoints()<CR>', { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<CR>", { noremap = true })
-vim.keymap.set("n", "<leader>dc", ":DapContinue<CR>", { noremap = true })
+-- vim.keymap.set("n", "<leader>dc", ":DapContinue<CR>", { noremap = true })
+
+-- Start debugging
+vim.keymap.set("n", "<Leader>dc", ':lua require("dap").continue()<CR>', { noremap = true, silent = true })
+
+-- Stop debugging
+vim.keymap.set("n", "<Leader>dd", ':lua require("dap").disconnect()<CR>', { noremap = true, silent = true })
+
+-- Step Into
+vim.keymap.set("n", "<Leader>di", ':lua require("dap").step_into()<CR>', { noremap = true, silent = true })
+
+-- Step Over
+vim.keymap.set("n", "<Leader>do", ':lua require("dap").step_over()<CR>', { noremap = true, silent = true })
+
+-- Step Out
+vim.keymap.set("n", "<Leader>ds", ':lua require("dap").step_out()<CR>', { noremap = true, silent = true })
+
+-- Set a conditional breakpoint in Neovim using DAP
+vim.keymap.set(
+	"n",
+	"<leader>cb",
+	[[:lua require('dap').set_breakpoint(vim.fn.input('Condition: '))<CR>]],
+	{ noremap = true, silent = true }
+)

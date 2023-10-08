@@ -15,7 +15,8 @@ require("lazy").setup(
 	{ { import = "derby.plugins" }, { import = "derby.plugins.lsp" }, { import = "derby.plugins.godap" } },
 	{
 		install = {
-			colorscheme = { "rose-pine" },
+			-- colorscheme = { "rose-pine" },
+			colorscheme ={"catppuccin/nvim", name = "catppuccin"}
 		},
 		checker = {
 			enabled = true,
