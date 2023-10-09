@@ -3,6 +3,9 @@ return {
 		-- "rose-pine/neovim", as = "rose-pine",
 		"catppuccin/nvim",
 		as = "catppuccin",
+		-- "uloco/bluloco.nvim",
+		-- as = "bluloco",
+		-- dependencies = { "rktjmp/lush.nvim" },
 		priority = 1000,
 		config = function()
 			-- require("rose-pine").setup({
@@ -99,9 +102,15 @@ return {
 					treesitter = true,
 					notify = false,
 					mini = false,
-					-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 				},
 			})
+			-- require("bluloco").setup({
+			-- 	style = "light", -- "auto" | "dark" | "light"
+			-- 	transparent = false,
+			-- 	italics = true,
+			-- 	terminal = vim.fn.has("gui_running") == 1, -- bluoco colors are enabled in gui terminals per default.
+			-- 	guicursor = true,
+			-- })
 			vim.cmd([[colorscheme catppuccin]])
 		end,
 	},

@@ -16,7 +16,8 @@ require("lazy").setup(
 	{
 		install = {
 			-- colorscheme = { "rose-pine" },
-			colorscheme ={"catppuccin/nvim", name = "catppuccin"}
+			-- colorscheme ={"catppuccin/nvim", name = "catppuccin"}
+			colorscheme = { "uloco/bluloco.nvim" },
 		},
 		checker = {
 			enabled = true,
