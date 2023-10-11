@@ -31,7 +31,7 @@ vim.cmd("match ExtraWhitespace /\\s\\+$/")
 -- ]])
 
 -- line wrapping
--- opt.wrap = true
+opt.wrap = false
 
 -- search settings
 opt.ignorecase = true
