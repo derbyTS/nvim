@@ -1,5 +1,10 @@
 local opt = vim.opt --for conciseness
 
+--
+vim.opt.fileformat = "unix" -- LF
+-- vim.opt.fileformat = "mac" -- CR
+-- vim.opt.fileformat = "dos" -- CRLF
+
 -- line numbers
 
 opt.relativenumber = true
