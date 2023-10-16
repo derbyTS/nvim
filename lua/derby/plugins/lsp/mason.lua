@@ -39,7 +39,7 @@ return {
 				"gopls",
 				"jsonls",
 				"jdtls",
-				"marksman",
+				-- "marksman",
 				"pyright",
 				"rust_analyzer",
 				"sqlls",
