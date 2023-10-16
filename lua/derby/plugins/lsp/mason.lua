@@ -54,11 +54,9 @@ return {
 				"prettier", -- ts/js formatter
 				"stylua", -- lua formatter
 				"eslint_d", -- ts/js linter
-				-- "yamlfmt",
 				"clang-format",
 				"sonarlint-language-server",
 				"golines",
-				"jq",
 				"gofumpt",
 				"goimports-reviser",
 				"golines",
