@@ -111,3 +111,7 @@ vim.keymap.set(
 	[[:lua require('dap').set_breakpoint(vim.fn.input('Condition: '))<CR>]],
 	{ noremap = true, silent = true }
 )
+
+-- Tab
+vim.keymap.set("x", "<Leader>>", ">gv", { noremap = true })
+vim.keymap.set("x", "<Leader><", "<gv", { noremap = true })
