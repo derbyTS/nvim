@@ -16,8 +16,8 @@ opt.shiftwidth = 4
 opt.expandtab = false
 opt.autoindent = true
 
-vim.cmd("highlight ExtraWhitespace ctermbg=1 guibg=#EED7DC")
-vim.cmd("match ExtraWhitespace /\\s\\+$/")
+-- vim.cmd("highlight ExtraWhitespace ctermbg=1 guibg=#EED7DC")
+-- vim.cmd("match ExtraWhitespace /\\s\\+$/")
 
 -- Set different tab settings for C files using LSP
 -- vim.cmd([[

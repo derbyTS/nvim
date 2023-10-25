@@ -81,8 +81,8 @@ return {
 					},
 				},
 			})
-			vim.cmd("highlight ExtraWhitespace ctermbg=1 guibg=#EED7DC")
-			vim.cmd("match ExtraWhitespace /\\s\\+$/")
+			-- vim.cmd("highlight ExtraWhitespace ctermbg=1 guibg=#EED7DC")
+			-- vim.cmd("match ExtraWhitespace /\\s\\+$/")
 		end,
 	},
 }
