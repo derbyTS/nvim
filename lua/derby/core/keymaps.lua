@@ -28,9 +28,6 @@ vim.keymap.set("n", "<leader>bcx", ":windo diffoff<CR>", { noremap = true })
 -- Clear search highlighting
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { noremap = true })
 
---
-vim.keymap.set("n", "<leader>se", ":MaximizerToggle<CR>")
-
 -- nvim tree maximizer
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
 
