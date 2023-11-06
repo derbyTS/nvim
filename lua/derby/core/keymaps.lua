@@ -112,3 +112,7 @@ vim.keymap.set(
 -- Tab
 vim.keymap.set("x", "<Leader>>", ">gv", { noremap = true })
 vim.keymap.set("x", "<Leader><", "<gv", { noremap = true })
+
+--ZenMode
+
+vim.keymap.set("n", "<leader>zz", ":ZenMode<CR>", { noremap = true, silent = true })
