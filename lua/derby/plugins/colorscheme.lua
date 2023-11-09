@@ -63,12 +63,12 @@ return {
 			-- 	},
 			-- })
 			require("catppuccin").setup({
-				flavour = "mocha", -- latte, frappe, macchiato, mocha
+				flavour = "macchiato", -- latte, frappe, macchiato, mocha
 				background = { -- :h background
 					light = "latte",
-					dark = "mocha",
+					dark = "frappe",
 				},
-				transparent_background = true, -- disables setting the background color.
+				transparent_background = false, -- disables setting the background color.
 				show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
 				term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
 				dim_inactive = {
@@ -111,6 +111,7 @@ return {
 			-- 	terminal = vim.fn.has("gui_running") == 1, -- bluoco colors are enabled in gui terminals per default.
 			-- 	guicursor = true,
 			-- })
+			-- vim.cmd([[colorscheme bluloco]])
 			vim.cmd([[colorscheme catppuccin]])
 		end,
 	},
