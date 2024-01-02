@@ -5,6 +5,9 @@ vim.opt.fileformat = "unix" -- LF
 -- vim.opt.fileformat = "mac" -- CR
 -- vim.opt.fileformat = "dos" -- CRLF
 
+-- For WSL Ubuntu, make sure that 'xclip' ins install by xclip -version
+--opt.clipboard:append("unnamedplus")
+
 -- line numbers
 
 opt.relativenumber = true
