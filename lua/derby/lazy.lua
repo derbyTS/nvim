@@ -12,7 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
-	{ { import = "derby.plugins" }, { import = "derby.plugins.lsp" }, { import = "derby.plugins.godap" } },
+	{ { import = "derby.plugins" }, { import = "derby.plugins.lsp" }, { import = "derby.plugins.dap" } },
 	{
 		install = {
 			-- colorscheme = { "rose-pine" },

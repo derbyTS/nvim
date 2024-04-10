@@ -61,6 +61,7 @@ return {
 				"gofumpt",
 				"goimports-reviser",
 				"golines",
+				"codelldb",
 			},
 		})
 	end,
