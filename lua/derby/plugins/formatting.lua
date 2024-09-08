@@ -22,16 +22,16 @@ return {
 				go = { "gofumpt", "goimports_reviser", "golines" },
 				java = { "clang_format" },
 				c = {
-					{
-						"clang_format",
-						"-style={BasedOnStyle: LLVM, IndentWidth: 4}",
-					},
+					-- {
+					"clang_format",
+					-- "-style={BasedOnStyle: LLVM, IndentWidth: 4}",
+					-- },
 				},
 				cpp = {
-					{
-						"clang_format",
-						"-style={BasedOnStyle: Google, IndentWidth: 4}",
-					},
+					-- {
+					"clang_format",
+					-- 	"-style={BasedOnStyle: Google, IndentWidth: 4}",
+					-- },
 				},
 			},
 			format_on_save = {
