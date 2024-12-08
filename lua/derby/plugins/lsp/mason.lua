@@ -40,7 +40,7 @@ return {
 				"jsonls",
 				"jdtls",
 				-- "marksman",
-				"pyright",
+				"pylsp",
 				"rust_analyzer",
 				"sqlls",
 				"yamlls",
