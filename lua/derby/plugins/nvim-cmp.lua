@@ -29,14 +29,16 @@ return {
 				end,
 			},
 			mapping = cmp.mapping.preset.insert({
-				["<C-0>"] = cmp.mapping(function(fallback)
+				-- ["<C-0>"] = cmp.mapping(function(fallback)
+				["<Tab>"] = cmp.mapping(function(fallback)
 					if luasnip and luasnip.jumpable(1) then
 						luasnip.jump(1)
 					else
 						fallback()
 					end
 				end, { "i", "s" }),
-				["<C-9>"] = cmp.mapping(function(fallback)
+				-- ["<C-9>"] = cmp.mapping(function(fallback)
+				["<S-Tab>"] = cmp.mapping(function(fallback)
 					if luasnip and luasnip.jumpable(-1) then
 						luasnip.jump(-1)
 					else
