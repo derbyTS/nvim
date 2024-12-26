@@ -116,3 +116,8 @@ vim.keymap.set("x", "<Leader><", "<gv", { noremap = true })
 --ZenMode
 
 vim.keymap.set("n", "<leader>zz", ":ZenMode<CR>", { noremap = true, silent = true })
+
+-- lua require('cmp').setup.buffer { enabled = false }
+
+vim.keymap.set("n", "<leader>con", ":lua require('cmp').setup.buffer { enabled = true }<CR>", {})
+vim.keymap.set("n", "<leader>cof", ":lua require('cmp').setup.buffer { enabled = false }<CR>", {})
