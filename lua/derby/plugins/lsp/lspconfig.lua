@@ -86,7 +86,7 @@ return {
 				clangd = {
 					format = {
 						style = "file",
-						tabSize = 2,
+						tabSize = 4,
 					},
 				},
 			},
@@ -128,6 +128,12 @@ return {
 		lspconfig["jsonls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
+		})
+
+		lspconfig["html"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "tmpl" },
 		})
 
 		lspconfig["jdtls"].setup({
@@ -186,10 +192,25 @@ return {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
-		lspconfig["ltex"].setup({
+
+		-- lspconfig["ltex"].setup({
+		-- 	capabilities = capabilities,
+		-- 	on_attach = on_attach,
+		-- })
+
+		lspconfig["terraformls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
+			cmd = { "terraform-ls", "serve" },
+			filetypes = { "terraform", "hcl" },
+			-- root_dir = lspconfig.util.root_pattern("*.tf", ".terraform", ".git"),
 		})
+		-- vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+		-- 	pattern = "*.tmpl",
+		-- 	callback = function()
+		-- 		vim.bo.filetype = "html"
+		-- 	end,
+		-- })
 		-- configure lua server (with special settings)
 		lspconfig["lua_ls"].setup({
 			capabilities = capabilities,

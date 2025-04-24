@@ -48,7 +48,8 @@ return {
 					"gowork",
 					"gosum",
 					"rust",
-					"latex",
+					-- "latex",
+					"hcl",
 				},
 				incremental_selection = {
 					enable = true,

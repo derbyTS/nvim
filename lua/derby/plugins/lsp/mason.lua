@@ -43,8 +43,9 @@ return {
 				"pylsp",
 				"rust_analyzer",
 				"sqlls",
+				"terraformls",
 				"yamlls",
-				"ltex",
+				-- "ltex",
 			},
 			-- auto-install configured servers (with lspconfig)
 			automatic_installation = true, -- not the same as ensure_installed

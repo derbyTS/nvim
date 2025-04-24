@@ -119,5 +119,13 @@ vim.keymap.set("n", "<leader>zz", ":ZenMode<CR>", { noremap = true, silent = tru
 
 -- lua require('cmp').setup.buffer { enabled = false }
 
-vim.keymap.set("n", "<leader>con", ":lua require('cmp').setup.buffer { enabled = true }<CR>", {})
-vim.keymap.set("n", "<leader>cof", ":lua require('cmp').setup.buffer { enabled = false }<CR>", {})
+-- vim.keymap.set("n", "<leader>con", ":lua require('cmp').setup.buffer { enabled = true }<CR>", {})
+-- vim.keymap.set("n", "<leader>cof", ":lua require('cmp').setup.buffer { enabled = false }<CR>", {})
+
+local cmp_enabled = true -- Variable to track the state
+
+vim.keymap.set("n", "<leader>cmp", function()
+	cmp_enabled = not cmp_enabled
+	require("cmp").setup.buffer({ enabled = cmp_enabled })
+	print("Completion " .. (cmp_enabled and "enabled" or "disabled"))
+end, {})
