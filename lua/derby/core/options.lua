@@ -52,6 +52,9 @@ opt.signcolumn = "yes"
 -- backspace
 opt.backspace = "indent,eol,start"
 
+-- for end of line
+opt.fixendofline = true
+
 -- clipboard
 opt.clipboard:append("unnamedplus")
 

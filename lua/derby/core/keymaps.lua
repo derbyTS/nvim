@@ -129,3 +129,5 @@ vim.keymap.set("n", "<leader>cmp", function()
 	require("cmp").setup.buffer({ enabled = cmp_enabled })
 	print("Completion " .. (cmp_enabled and "enabled" or "disabled"))
 end, {})
+
+vim.keymap.set("n", "<leader>fp", ":echo expand('%:p')<CR>", { noremap = true, silent = true })

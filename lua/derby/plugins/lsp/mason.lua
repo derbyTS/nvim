@@ -30,6 +30,8 @@ return {
 				-- "tsserver",
 				"html",
 				"cssls",
+				"clangd",
+				"tailwindcss",
 				"tailwindcss",
 				"lua_ls",
 				"emmet_ls",
