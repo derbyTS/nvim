@@ -22,12 +22,46 @@ return {
 			keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
 			opts.desc = "Go to declaration"
-			keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+			vim.keymap.set("n", "gD", function()
+				-- Save the current buffer silently.
+				vim.cmd("silent! w")
+				vim.lsp.buf.declaration()
+			end, opts)
+			-- keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 
-			opts.desc = "Show LSP definitions Telescope"
-			keymap.set("n", "gDD", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+			opts.desc = "Show LSP definitions (Telescope)"
+			-- keymap.set("n", "gDD", require("telescope.builtin").lsp_definitions)
+			-- keymap.set("n", "gDD", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+			keymap.set("n", "gDD", function()
+				require("telescope.builtin").lsp_definitions({
+					-- Configuration table for lsp_definitions
+					-- This 'on_select' function will be called when an item is selected in the picker.
+					on_select = function(entry)
+						-- Save the current buffer silently before jumping.
+						-- The '!' forces the write even if there are minor issues.
+						vim.cmd("silent! w")
+
+						-- Close the Telescope picker. `entry.prompt_bufnr` is the buffer number of the picker.
+						-- This ensures the picker closes cleanly before we jump to the new location.
+						require("telescope.actions").close(entry.prompt_bufnr)
+
+						-- Manually jump to the selected location using Vim commands.
+						-- The 'entry' object contains 'filename', 'lnum' (0-indexed line number),
+						-- and 'col' (0-indexed column number) from the LSP response.
+						-- Vim's `cursor` and `goto` commands are 1-indexed for line numbers,
+						-- so we add 1 to `lnum`.
+						if entry.filename then
+							-- Open the file in the current window.
+							vim.cmd(string.format("edit %s", vim.fn.fnameescape(entry.filename)))
+							-- Set the cursor position in the new buffer.
+							vim.api.nvim_win_set_cursor(0, { entry.lnum + 1, entry.col })
+						end
+					end,
+				})
+			end, opts)
 
 			opts.desc = "Show LSP definitions"
+			-- keymap.set("n", "gd", vim.lsp.buf.definitions, opts) -- show lsp implementations
 			keymap.set("n", "gd", function()
 				vim.lsp.buf.definition()
 			end, opts)
@@ -45,10 +79,16 @@ return {
 			keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
 			opts.desc = "Show buffer diagnostics"
-			keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+			-- keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+			keymap.set("n", "<leader>D", function()
+				vim.cmd("Telescope diagnostics bufnr=0")
+			end, opts)
 
 			opts.desc = "Show line diagnostics"
-			keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+			-- keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+			keymap.set("n", "<leader>d", function()
+				vim.diagnostic.open_float()
+			end, opts)
 
 			opts.desc = "Go to previous diagnostic"
 			keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
@@ -189,11 +229,6 @@ return {
 		-- 	on_attach = on_attach,
 		-- })
 
-		lspconfig["pylsp"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
 		lspconfig["rust_analyzer"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
@@ -213,6 +248,11 @@ return {
 		-- 	capabilities = capabilities,
 		-- 	on_attach = on_attach,
 		-- })
+
+		lspconfig["pyright"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
 
 		lspconfig["terraformls"].setup({
 			capabilities = capabilities,

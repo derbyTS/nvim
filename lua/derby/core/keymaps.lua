@@ -30,6 +30,7 @@ vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { noremap = true })
 
 -- nvim tree maximizer
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>ef", ":NvimTreeFindFile<CR>")
 
 -- telescope
 vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
@@ -69,7 +70,7 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- Delete and Paste
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+ygv<Esc>]])
 vim.keymap.set("n", "<leader>Y", [["+Ygv<Esc>]])
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>del", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
 
@@ -130,4 +131,26 @@ vim.keymap.set("n", "<leader>cmp", function()
 	print("Completion " .. (cmp_enabled and "enabled" or "disabled"))
 end, {})
 
-vim.keymap.set("n", "<leader>fp", ":echo expand('%:p')<CR>", { noremap = true, silent = true })
+-- This is for full path
+vim.keymap.set("n", "<leader>ffp", ":echo expand('%:p')<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>fcfp", function()
+	vim.fn.setreg("+", vim.fn.expand("%:p"))
+	vim.cmd("echo 'copied: ' .. expand('%:p')")
+end, { noremap = true, silent = false })
+
+-- This is for relative path
+vim.keymap.set("n", "<leader>fp", ":echo expand('%')<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>cfp", function()
+	vim.fn.setreg("+", vim.fn.expand("%"))
+	vim.cmd("echo 'copied: ' .. expand('%')")
+end, { noremap = true, silent = false })
+
+vim.keymap.set("n", "<leader>rel", function()
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		local current = vim.api.nvim_win_get_option(win, "relativenumber")
+		vim.api.nvim_win_set_option(win, "relativenumber", not current)
+	end
+end, { desc = "Toggle relative number globally" })
+
+-- for current buffer only
+-- vim.keymap.set("n", "<leader>rel", ":set rnu!<CR>", { desc = "Toggle relative number" })

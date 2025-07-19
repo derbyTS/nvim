@@ -42,7 +42,7 @@ return {
 				"jsonls",
 				"jdtls",
 				-- "marksman",
-				"pylsp",
+				"pyright",
 				"rust_analyzer",
 				"sqlls",
 				"terraformls",
