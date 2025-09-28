@@ -152,5 +152,46 @@ vim.keymap.set("n", "<leader>rel", function()
 	end
 end, { desc = "Toggle relative number globally" })
 
+--
 -- for current buffer only
 -- vim.keymap.set("n", "<leader>rel", ":set rnu!<CR>", { desc = "Toggle relative number" })
+
+--
+-- vim.keymap.set("n", "<leader>cfl", function()
+--   local sdl2_prefix = vim.fn.system("brew --prefix sdl2"):gsub("%s+", "") -- trim newline
+--   local include_path = "-I" .. sdl2_prefix .. "/include"
+--   vim.fn.writefile({ include_path }, "compile_flags.txt", "a") -- append
+--   print("Added: " .. include_path .. " -> compile_flags.txt")
+-- end, { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>cfl", function()
+	vim.cmd('!echo "-I$(brew --prefix sdl2)/include" >> compile_flags.txt')
+end, { noremap = true, silent = false, desc = "Add SDL2 include path to compile_flags.txt" })
+
+-- Highlight current line
+vim.keymap.set("n", "<leader>hl", function()
+	local lnum = vim.fn.line(".") -- get current line number
+	vim.fn.matchadd("Search", "\\%" .. lnum .. "l")
+end, { desc = "Highlight current line" })
+
+vim.keymap.set("n", "<leader>hf", function()
+	require("telescope.builtin").current_buffer_fuzzy_find({
+		prompt_title = "Highlight Line",
+		attach_mappings = function(_, map)
+			map("i", "<CR>", function(prompt_bufnr)
+				local entry = require("telescope.actions.state").get_selected_entry()
+				require("telescope.actions").close(prompt_bufnr)
+				if entry and entry.lnum then
+					vim.fn.matchadd("Search", "\\%" .. entry.lnum .. "l")
+				end
+			end)
+			return true
+		end,
+	})
+end, { desc = "Highlight line via Telescope" })
+
+vim.keymap.set("n", "<leader>hn", function()
+	local lnum = vim.fn.input("Line to highlight: ")
+	if tonumber(lnum) then
+		vim.fn.matchadd("Search", "\\%" .. lnum .. "l")
+	end
+end, { desc = "Highlight specific line" })

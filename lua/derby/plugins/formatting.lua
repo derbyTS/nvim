@@ -13,7 +13,7 @@ return {
 				svelte = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
-				json = { "prettier" },
+				json = { "jq" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				graphql = { "prettier" },
@@ -22,19 +22,32 @@ return {
 				terraform = { "terraform_fmt" },
 				go = { "gofumpt", "goimports_reviser", "golines" },
 				java = { "clang_format" },
-				c = {
-					"clang_format",
-					extra_args = { "-style={BasedOnStyle: LLVM, IndentWidth: 4}" },
-				},
-				cpp = {
-					"clang_format",
-					extra_args = { "-style={BasedOnStyle: Google, IndentWidth: 4}" },
-				},
+				c = { "clang_format_custom_c" },
+				cpp = { "clang_format_custom_c" },
 			},
 			format_on_save = {
-				lsp_fallback = true,
+				lsp_fallback = false,
 				async = false,
 				timeout_ms = 1000,
+			},
+			formatters = {
+				clang_format_custom_c = {
+					command = "clang-format",
+					args = { "--style={BasedOnStyle: LLVM, IndentWidth: 4}" },
+				},
+				clang_format_custom_cpp = {
+					command = "clang-format",
+					args = { "--style={BasedOnStyle: Google, IndentWidth: 4}" },
+				},
+				stylua = {
+					command = "stylua",
+					args = { "--search-parent-directories", "-" },
+					stdin = true,
+				},
+				goimports_reviser = {
+					command = "goimports-reviser",
+					args = { "-rm-unused", "-set-alias", "-format" },
+				},
 			},
 		})
 
@@ -47,3 +60,6 @@ return {
 		end, { desc = "Format file or range (in visual mode)" })
 	end,
 }
+
+-- print current formatter
+-- :lua print(vim.inspect(require("conform").list_formatters_for_buffer(0)))

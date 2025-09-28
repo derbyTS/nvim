@@ -6,6 +6,9 @@ return {
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 	},
 	config = function()
+		-- import lspconfig plugin
+		local lspconfig = require("lspconfig")
+
 		-- import cmp-nvim-lsp plugin
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -133,12 +136,12 @@ return {
 			},
 		})
 
-		vim.lsp.config["ansiblels"] = {
+		lspconfig["ansiblels"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["clangd"] = {
+		lspconfig["clangd"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = {
@@ -149,31 +152,30 @@ return {
 					},
 				},
 			},
-		}
+		})
 
-		vim.lsp.config["cmake"] = {
+		lspconfig.cmake.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["bashls"] = {
+		lspconfig["bashls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["docker_compose_language_service"] = {
+		lspconfig["docker_compose_language_service"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		-- local util = require("lspconfig/util")
-		vim.lsp.config["gopls"] = {
+		local util = require("lspconfig/util")
+		lspconfig["gopls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			cmd = { "gopls" },
 			filetypes = { "go", "gomod", "gowork", "gotmpl", "gosum" },
-			-- root_dir = util.root_pattern("go.work", "go.mod", "git"),
-			root_markers = { "go.work", "go.mod", "git" },
+			root_dir = util.root_pattern("go.work", "go.mod", "git"),
 			settings = {
 				gopls = {
 					completeUnimported = true,
@@ -183,25 +185,25 @@ return {
 					},
 				},
 			},
-		}
+		})
 
-		vim.lsp.config["bashls"] = {
+		lspconfig["bashls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["jsonls"] = {
+		lspconfig["jsonls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["html"] = {
+		lspconfig["html"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "tmpl" },
-		}
+		})
 
-		vim.lsp.config["jdtls"] = {
+		lspconfig["jdtls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			cmd = { "jdtls" },
@@ -231,45 +233,45 @@ return {
 					tabSize = 4,
 				},
 			},
-		}
+		})
 
 		-- lspconfig["marksman"].setup({
 		-- 	capabilities = capabilities,
 		-- 	on_attach = on_attach,
 		-- })
 
-		vim.lsp.config["rust_analyzer"] = {
+		lspconfig["rust_analyzer"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["sqlls"] = {
+		lspconfig["sqlls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["yamlls"] = {
+		lspconfig["yamlls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
 		-- lspconfig["ltex"].setup({
 		-- 	capabilities = capabilities,
 		-- 	on_attach = on_attach,
 		-- })
 
-		vim.lsp.config["pyright"] = {
+		lspconfig["pyright"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		vim.lsp.config["terraformls"] = {
+		lspconfig["terraformls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			cmd = { "terraform-ls", "serve" },
 			filetypes = { "terraform", "hcl" },
 			-- root_dir = lspconfig.util.root_pattern("*.tf", ".terraform", ".git"),
-		}
+		})
 		-- vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 		-- 	pattern = "*.tmpl",
 		-- 	callback = function()
@@ -277,7 +279,7 @@ return {
 		-- 	end,
 		-- })
 		-- configure lua server (with special settings)
-		vim.lsp.config["lua_ls"] = {
+		lspconfig["lua_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = { -- custom settings for lua
@@ -295,6 +297,6 @@ return {
 					},
 				},
 			},
-		}
+		})
 	end,
 }

@@ -107,6 +107,16 @@ return {
 				},
 			})
 			vim.cmd([[colorscheme catppuccin]])
+			-- Transparency for floating windows
+			vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+			vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+
+			-- Reset blending so transparency works
+			vim.o.winblend = 0
+			vim.o.pumblend = 0
+
+			vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "NONE", fg = "grey" })
+
 			-- require("bluloco").setup({
 			-- 	style = "light", -- "auto" | "dark" | "light"
 			-- 	transparent = false,

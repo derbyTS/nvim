@@ -4,7 +4,7 @@ return {
 	config = function()
 		local lualine = require("lualine")
 		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
-local colorscheme = require("lualine.themes.auto")
+		local colorscheme = require("lualine.themes.auto")
 		local new_colors = {
 			EED7DC = "#EED7DC",
 			FFCCD1 = "#FFCCD1",
@@ -13,7 +13,6 @@ local colorscheme = require("lualine.themes.auto")
 			FF3F56 = "#FF3F56",
 			fg = "black",
 		}
-
 
 		colorscheme.normal.a.bg = new_colors.EED7DC
 		colorscheme.insert.a.bg = new_colors.FFCCD1
@@ -39,6 +38,7 @@ local colorscheme = require("lualine.themes.auto")
 						color = { fg = "#ff9e64" },
 					},
 					{ "encoding" },
+					{ "searchcount" },
 					{ "fileformat" },
 					{ "filetype" },
 				},
