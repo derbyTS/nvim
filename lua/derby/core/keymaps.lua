@@ -195,3 +195,10 @@ vim.keymap.set("n", "<leader>hn", function()
 		vim.fn.matchadd("Search", "\\%" .. lnum .. "l")
 	end
 end, { desc = "Highlight specific line" })
+
+vim.keymap.set("n", "<leader>hC", function()
+	vim.cmd("call clearmatches()")
+end, { desc = "Clear Custom and Search Highlights" })
+
+-- Buffer
+vim.keymap.set("n", "<Leader>bb", "<C-^>", { noremap = true, silent = true, desc = "Switch to alternative buffer" })
