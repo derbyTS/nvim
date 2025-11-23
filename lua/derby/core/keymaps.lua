@@ -201,4 +201,54 @@ vim.keymap.set("n", "<leader>hC", function()
 end, { desc = "Clear Custom and Search Highlights" })
 
 -- Buffer
-vim.keymap.set("n", "<Leader>bb", "<C-^>", { noremap = true, silent = true, desc = "Switch to alternative buffer" })
+-- vim.keymap.set("n", "<Leader>bb", "<C-^>", { noremap = true, silent = true, desc = "Switch to alternative buffer" })
+vim.keymap.set("n", "<Leader>bb", function()
+	-- switch to alternate buffer (equivalent to <C-^> / :b#)
+	vim.cmd("silent! buffer #")
+	-- center cursor in the window
+	-- vim.cmd("silent! normal! zz")
+end, { noremap = true, silent = true, desc = "Switch to alternative buffer and center" })
+-- Print the filetype upon enter
+-- vim.api.nvim_create_autocmd("WinEnter", {
+-- 	callback = function()
+-- 		print("WinEnter: ft=" .. tostring(vim.bo.filetype) .. " bt=" .. tostring(vim.bo.buftype))
+-- 	end,
+-- })
+-- Table to store views per buffer (memory only)
+local buffer_views = {}
+
+-- Save view when leaving a normal buffer
+vim.api.nvim_create_autocmd("BufLeave", {
+	callback = function()
+		local buf = vim.api.nvim_get_current_buf()
+		local bt = vim.bo[buf].buftype
+		if bt == "" then -- normal file buffers only
+			buffer_views[buf] = vim.fn.winsaveview()
+		end
+	end,
+})
+
+-- Restore view when entering a normal buffer
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = function()
+		local buf = vim.api.nvim_get_current_buf()
+		local bt = vim.bo[buf].buftype
+		if bt == "" and buffer_views[buf] then
+			vim.fn.winrestview(buffer_views[buf])
+		end
+	end,
+})
+
+-- Clean up views when buffer is deleted (any method)
+vim.api.nvim_create_autocmd("BufDelete", {
+	callback = function(opts)
+		local buf = opts.buf
+		buffer_views[buf] = nil
+	end,
+})
+
+vim.keymap.set("n", "<leader>bv", function()
+	vim.notify(vim.inspect(buffer_views), vim.log.levels.INFO, {
+		title = "Buffer Views",
+	})
+end, { desc = "Show buffer view table" })
