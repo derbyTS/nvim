@@ -31,10 +31,21 @@ return {
 			mapping = cmp.mapping.preset.insert({
 				-- ["<C-0>"] = cmp.mapping(function(fallback)
 				["<Tab>"] = cmp.mapping(function(fallback)
-					if luasnip and luasnip.jumpable(1) then
-						luasnip.jump(1)
+					-- This function checks if the cursor is at the start of a line or over whitespace
+					local has_words_before = function()
+						unpack = unpack or table.unpack
+						local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+						return col ~= 0
+							and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s")
+								== nil
+					end
+
+					if luasnip.expand_or_locally_jumpable() then
+						luasnip.expand_or_jump()
+					elseif has_words_before() then
+						cmp.complete()
 					else
-						fallback()
+						fallback() -- This now correctly triggers a standard Tab if the line is empty
 					end
 				end, { "i", "s" }),
 				-- ["<C-9>"] = cmp.mapping(function(fallback)

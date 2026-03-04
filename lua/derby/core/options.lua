@@ -19,6 +19,15 @@ opt.shiftwidth = 4
 opt.expandtab = false
 opt.autoindent = true
 
+opt.spell = true
+opt.spelllang = { "en_us" }
+
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+
 -- vim.cmd("highlight ExtraWhitespace ctermbg=1 guibg=#EED7DC")
 -- vim.cmd("match ExtraWhitespace /\\s\\+$/")
 
