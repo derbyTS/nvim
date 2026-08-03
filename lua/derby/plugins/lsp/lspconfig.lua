@@ -179,8 +179,9 @@ return {
 				gopls = {
 					completeUnimported = true,
 					usePlaceholders = true,
+					staticcheck = true,
 					analyses = {
-						unusedparamas = true,
+						unusedparams = true,
 					},
 				},
 			},

@@ -1,41 +1,37 @@
 return {
 	"mfussenegger/nvim-dap",
 	config = function()
-		local dap_setup = require("dap")
-		dap_setup.adapters.lldb = {
-			type = "executable",
-			command = "/opt/homebrew/opt/llvm/bin/lldb-vscode", -- adjust as needed, must be absolute path
-			name = "lldb",
-		}
+		local dap = require("dap")
 
-		dap_setup.configurations.cpp = {
-			{
-				name = "launch",
-				type = "lldb",
-				request = "launch",
-				program = function()
-					return vim.fn.input("path to executable: ", vim.fn.getcwd() .. "/", "file")
-				end,
-				cwd = "${workspaceFolder}",
-				stoponentry = false,
-				args = {},
-			},
-			{
-				name = "With Input",
-				type = "lldb",
-				request = "launch",
-				program = function()
-					return vim.fn.input("path to executable: ", vim.fn.getcwd() .. "/", "file")
-				end,
-				cwd = "${workspaceFolder}",
-				stoponentry = false,
-				args = {},
-				input = function()
-					return vim.fn.input("input path : ", vim.fn.getcwd() .. "/", "file")
-				end,
+		-- 1. Locate the Mason installation of codelldb
+		local codelldb_path = vim.fn.stdpath("data") .. "/mason/bin/codelldb"
+
+		dap.adapters.codelldb = {
+			type = "server",
+			port = "${port}",
+			executable = {
+				command = codelldb_path,
+				args = { "--port", "${port}" },
 			},
 		}
 
-		dap_setup.configurations.c = dap_setup.configurations.cpp
+		-- 2. Define the configuration for C and C++
+		local config = {
+			{
+				name = "Launch file",
+				type = "codelldb", -- Matches the adapter name above
+				request = "launch",
+				program = function()
+					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+				end,
+				cwd = "${workspaceFolder}",
+				stopOnEntry = false,
+				-- This allows you to see terminal output more clearly
+				console = "integratedTerminal",
+			},
+		}
+
+		dap.configurations.cpp = config
+		dap.configurations.c = config
 	end,
 }

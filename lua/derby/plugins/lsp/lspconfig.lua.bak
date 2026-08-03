@@ -181,7 +181,7 @@ return {
 					completeUnimported = true,
 					usePlaceholders = true,
 					analyses = {
-						unusedparamas = true,
+						unusedparams = true,
 					},
 				},
 			},
