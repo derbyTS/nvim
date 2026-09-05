@@ -18,15 +18,32 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) 
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
+local side_wins = {}
+
 local function toggle_centered_buffer()
-	-- Check if side padding windows already exist
+	-- If centered mode is active, close side splits and restore layout
 	if vim.g.centered_mode then
-		vim.cmd("only") -- Closes side padding splits
+		for _, win in ipairs(side_wins) do
+			if vim.api.nvim_win_is_valid(win) then
+				vim.api.nvim_win_close(win, true)
+			end
+		end
+		side_wins = {}
 		vim.g.centered_mode = false
 		return
 	end
 
-	local width = vim.o.columns
+	-- Auto-close NvimTree if visible to prevent margin distortion
+	local tree_api_ok, tree_api = pcall(require, "nvim-tree.api")
+	if tree_api_ok and tree_api.tree.is_visible() then
+		tree_api.tree.close()
+	end
+
+	-- Close other standard splits so the target buffer gets full screen width
+	vim.cmd("only")
+
+	local current_win = vim.api.nvim_get_current_win()
+	local width = vim.api.nvim_win_get_width(current_win)
 	local target_width = 120
 	local margin = math.floor((width - target_width) / 2)
 
@@ -34,10 +51,21 @@ local function toggle_centered_buffer()
 		local side_opts =
 			"setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nomodifiable nonumber norelativenumber signcolumn=no fillchars+=eob:\\ "
 
-		vim.cmd("topleft " .. margin .. "vsplit | enew | " .. side_opts)
-		vim.cmd("wincmd l") -- Move focus back to center
-		vim.cmd("botright " .. margin .. "vsplit | enew | " .. side_opts)
-		vim.cmd("wincmd h") -- Keep focus on the middle buffer
+		-- Left padding
+		vim.cmd("leftabove " .. margin .. "vsplit | enew | " .. side_opts)
+		local left_win = vim.api.nvim_get_current_win()
+
+		-- Focus center
+		vim.api.nvim_set_current_win(current_win)
+
+		-- Right padding
+		vim.cmd("rightbelow " .. margin .. "vsplit | enew | " .. side_opts)
+		local right_win = vim.api.nvim_get_current_win()
+
+		side_wins = { left_win, right_win }
+
+		-- Focus active buffer
+		vim.api.nvim_set_current_win(current_win)
 		vim.g.centered_mode = true
 	end
 end
