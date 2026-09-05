@@ -18,6 +18,32 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) 
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
+local function toggle_centered_buffer()
+	-- Check if side padding windows already exist
+	if vim.g.centered_mode then
+		vim.cmd("only") -- Closes side padding splits
+		vim.g.centered_mode = false
+		return
+	end
+
+	local width = vim.o.columns
+	local target_width = 120
+	local margin = math.floor((width - target_width) / 2)
+
+	if margin > 10 then
+		local side_opts =
+			"setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nomodifiable nonumber norelativenumber signcolumn=no fillchars+=eob:\\ "
+
+		vim.cmd("topleft " .. margin .. "vsplit | enew | " .. side_opts)
+		vim.cmd("wincmd l") -- Move focus back to center
+		vim.cmd("botright " .. margin .. "vsplit | enew | " .. side_opts)
+		vim.cmd("wincmd h") -- Keep focus on the middle buffer
+		vim.g.centered_mode = true
+	end
+end
+
+vim.keymap.set("n", "<leader>zz", toggle_centered_buffer, { desc = "Toggle Centered Layout" })
+
 -- Compare
 -- Enable diff mode for all windows
 vim.keymap.set("n", "<leader>bc", ":windo diffthis<CR>", { noremap = true })
@@ -42,15 +68,37 @@ vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list availa
 -- Mapping for Shift+Enter to move to the next line in insert mode
 vim.keymap.set("i", "<S-Enter>", "<Esc>o", { noremap = true, silent = true })
 
--- Custom mappings for left and right navigation in insert mode
+-- 1. Disable vim-tmux-navigator's automatic mappings so it doesn't send text commands
+vim.g.tmux_navigator_no_mappings = 1
+
+-- 2. Normal Mode: Standard Neovim window navigation
+vim.keymap.set("n", "<C-h>", "<C-w>h", { silent = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { silent = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { silent = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { silent = true })
+
+-- 3. Insert Mode: Keep your existing arrow movement
 vim.keymap.set("i", "<C-h>", "<Left>", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
-vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true, silent = true })
 vim.keymap.set("i", "<C-j>", "<Down>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-k>", "<Up>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-l>", "<Right>", { noremap = true, silent = true })
+
+-- 4. Terminal Mode: Move cursor with arrow keys instead of switching windows
+vim.keymap.set("t", "<C-h>", "<Left>", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-j>", "<Down>", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-k>", "<Up>", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-l>", "<Right>", { noremap = true, silent = true })
 
 -- next word and previous word in insert mode
 vim.keymap.set("i", "<C-w>", "<Right><C-o>w", { noremap = true })
 vim.keymap.set("i", "<C-b>", "<Left><C-o>b", { noremap = true })
+
+-- Terminal mode ("t"): Word movements using escape sequences
+vim.keymap.set("t", "<C-b>", "\x1bb", { noremap = true, silent = true }) -- Word backward
+vim.keymap.set("t", "<C-w>", "\x1bf", { noremap = true, silent = true }) -- Word forward
+
+-- Terminal exit insert mode
+vim.keymap.set("t", "jk", [[<C-\><C-n>]])
 
 -- Wrap
 vim.keymap.set("n", "<leader>wr", ":set wrap!<CR>", { noremap = true, silent = true })
@@ -115,9 +163,9 @@ vim.keymap.set(
 vim.keymap.set("x", "<Leader>>", ">gv", { noremap = true })
 vim.keymap.set("x", "<Leader><", "<gv", { noremap = true })
 
---ZenMode
-
-vim.keymap.set("n", "<leader>zz", ":ZenMode<CR>", { noremap = true, silent = true })
+-- --ZenMode
+--
+-- vim.keymap.set("n", "<leader>zz", ":ZenMode<CR>", { noremap = true, silent = true })
 
 -- lua require('cmp').setup.buffer { enabled = false }
 
@@ -253,3 +301,65 @@ vim.keymap.set("n", "<leader>bv", function()
 		title = "Buffer Views",
 	})
 end, { desc = "Show buffer view table" })
+
+-- message
+-- Open :messages in a temporary scratch buffer
+vim.keymap.set("n", "<leader>m", function()
+	local buf = vim.api.nvim_create_buf(false, true)
+	local msgs = vim.fn.execute("messages")
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(msgs, "\n"))
+
+	-- Open in a centered floating window
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = math.floor(vim.o.columns * 0.8),
+		height = math.floor(vim.o.lines * 0.8),
+		col = math.floor(vim.o.columns * 0.1),
+		row = math.floor(vim.o.lines * 0.1),
+		style = "minimal",
+		border = "rounded",
+	})
+end, { desc = "Show messages in float" })
+
+-- Open command history in a temporary floating scratch buffer
+vim.keymap.set("n", "<leader>qf", function()
+	-- Create an unlisted scratch buffer
+	local buf = vim.api.nvim_create_buf(false, true)
+
+	-- Fetch the command history list
+	local history_count = vim.fn.histnr("cmd")
+	local history = {}
+	for i = 1, history_count do
+		local cmd = vim.fn.histget("cmd", i)
+		if cmd ~= "" then
+			table.insert(history, cmd)
+		end
+	end
+
+	-- Populate buffer with commands (latest at the bottom)
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, history)
+
+	-- Open in a centered floating window
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = math.floor(vim.o.columns * 0.8),
+		height = math.floor(vim.o.lines * 0.8),
+		col = math.floor(vim.o.columns * 0.1),
+		row = math.floor(vim.o.lines * 0.1),
+		style = "minimal",
+		border = "rounded",
+	})
+
+	-- Set buffer options for clean interaction
+	vim.bo[buf].filetype = "vim"
+	vim.wo[win].cursorline = true
+
+	-- Move cursor to the bottom (most recent command)
+	local line_count = vim.api.nvim_buf_line_count(buf)
+	vim.api.nvim_win_set_cursor(win, { line_count, 0 })
+
+	-- Pressing <Esc> or q closes the floating window
+	local opts = { buffer = buf, silent = true }
+	vim.keymap.set("n", "<Esc>", "<cmd>close<CR>", opts)
+	vim.keymap.set("n", "q", "<cmd>close<CR>", opts)
+end, { desc = "Show command history in float" })

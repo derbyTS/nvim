@@ -1,0 +1,18 @@
+return {
+	"shortcuts/no-neck-pain.nvim",
+	version = "*",
+	opts = {
+		width = 120,
+		tabs = {
+			enabled = false, -- Disables internal tab/bufferline offsets completely
+		},
+		integrations = {
+			bufferline = {
+				enabled = false,
+			},
+		},
+	},
+	keys = {
+		{ "<leader>zz", "<cmd>NoNeckPain<cr>", desc = "Toggle Centered Layout" },
+	},
+}

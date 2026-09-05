@@ -12,13 +12,35 @@ return {
 
 		telescope.setup({
 			defaults = {
-				path_display = { "truncate " },
+				path_display = { "truncate" },
+				-- path_display = { "smart" },
+				-- path_display = { "filename_first" },
 				mappings = {
 					i = {
 						["<C-k>"] = actions.move_selection_previous, -- move to prev result
 						["<C-j>"] = actions.move_selection_next, -- move to next result
-						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+						["<C-q>"] = actions.send_to_qflist + actions.open_qflist, -- Sends ALL results automatically
+						["<C-t>"] = actions.send_selected_to_qflist + actions.open_qflist,
+						["<C-d>"] = actions.delete_buffer, -- explicitly set buffer deletion in insert mode
 					},
+					n = {
+						["d"] = actions.delete_buffer, -- delete buffer in normal mode inside telescope
+					},
+				},
+			},
+			pickers = {
+				buffers = {
+					-- initial_mode = "normal", -- Open buffer list directly in Normal mode for fast 'd' deletion
+					sort_mru = true,
+					-- ignore_current_buffer = true,
+				},
+			},
+			extensions = {
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
 				},
 			},
 		})

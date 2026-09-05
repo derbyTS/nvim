@@ -14,7 +14,7 @@ return {
 			[[
 {}, err := {}
 if err != nil {{
-	fmt.Println(err)
+	log.Fatalln(err)
 }}
     ]],
 			{
@@ -32,7 +32,7 @@ if err != nil {{
 			[[
 {}, err = {}
 if err != nil {{
-	fmt.Println(err)
+	log.Fatalln(err)
 }}
     ]],
 			{
@@ -50,7 +50,7 @@ if err != nil {{
 			[[
 {}, err := {}
 if err != nil {{
-	fmt.Println(err)
+	log.Fatalln(err)
 	return
 }}
     ]],
@@ -69,7 +69,7 @@ if err != nil {{
 			[[
 {}, err = {}
 if err != nil {{
-	fmt.Println(err)
+	log.Fatalln(err)
 	return
 }}
     ]],
@@ -92,7 +92,7 @@ if err != nil {{
 -- {}, err := {}({})
 -- {}, err := {}({})
 -- if err != nil {{
--- 	fmt.Println(err)
+-- 	log.Fatalln(err)
 -- }}
 --     ]],
 -- 			{
@@ -111,7 +111,7 @@ if err != nil {{
 -- 			[[
 -- {}, err = {}({})
 -- if err != nil {{
--- 	fmt.Println(err)
+-- 	log.Fatalln(err)
 -- }}
 --     ]],
 -- 			{
@@ -130,7 +130,7 @@ if err != nil {{
 -- 			[[
 -- {}, err := {}({})
 -- if err != nil {{
--- 	fmt.Println(err)
+-- 	log.Fatalln(err)
 -- 	return
 -- }}
 --     ]],
@@ -150,7 +150,7 @@ if err != nil {{
 -- 			[[
 -- {}, err = {}({})
 -- if err != nil {{
--- 	fmt.Println(err)
+-- 	log.Fatalln(err)
 -- 	return
 -- }}
 --     ]],

@@ -81,8 +81,13 @@ return {
 			opts.desc = "Show LSP implementations Telescope"
 			keymap.set("n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
+			-- opts.desc = "Smart rename"
+			-- keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+
 			opts.desc = "Smart rename"
-			keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+			vim.keymap.set("n", "<leader>rn", function()
+				return ":IncRename " .. vim.fn.expand("<cword>")
+			end, vim.tbl_extend("force", opts, { expr = true }))
 
 			opts.desc = "See available code actions"
 			keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection

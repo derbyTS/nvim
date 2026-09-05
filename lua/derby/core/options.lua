@@ -79,3 +79,14 @@ opt.incsearch = true
 -- opt.termguicolors = true
 
 opt.scrolloff = 8
+
+-- Automatically check if files changed on disk when switching back to Neovim
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+	pattern = "*",
+	command = "checktime",
+})
+
+opt.laststatus = 3 -- Enables Neovim's global statusline across all splits
+
+-- opt.showtabline = 1 -- Show the tabline only if there are 2 or more tabs (hides it when there is only 1 tab).
