@@ -90,3 +90,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
 opt.laststatus = 3 -- Enables Neovim's global statusline across all splits
 
 -- opt.showtabline = 1 -- Show the tabline only if there are 2 or more tabs (hides it when there is only 1 tab).
+
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
