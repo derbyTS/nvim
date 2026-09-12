@@ -19,6 +19,10 @@ vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab"
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 local side_wins = {}
+local original_colorcolumn = ""
+
+-- Set to true to hide split lines, or false to keep them
+local HIDE_BORDERS = true
 
 local function toggle_centered_buffer()
 	-- If centered mode is active, close side splits and restore layout
@@ -29,17 +33,25 @@ local function toggle_centered_buffer()
 			end
 		end
 		side_wins = {}
+
+		-- Restore colorcolumn and border highlights
+		vim.opt_local.colorcolumn = original_colorcolumn
+		if HIDE_BORDERS then
+			vim.cmd("highlight link WinSeparator WinSeparator")
+			vim.cmd("highlight link VertSplit VertSplit")
+		end
+
 		vim.g.centered_mode = false
 		return
 	end
 
-	-- Auto-close NvimTree if visible to prevent margin distortion
+	-- Auto-close NvimTree if visible
 	local tree_api_ok, tree_api = pcall(require, "nvim-tree.api")
 	if tree_api_ok and tree_api.tree.is_visible() then
 		tree_api.tree.close()
 	end
 
-	-- Close other standard splits so the target buffer gets full screen width
+	-- Close standard splits
 	vim.cmd("only")
 
 	local current_win = vim.api.nvim_get_current_win()
@@ -48,8 +60,19 @@ local function toggle_centered_buffer()
 	local margin = math.floor((width - target_width) / 2)
 
 	if margin > 10 then
+		-- Save current colorcolumn and clear it
+		original_colorcolumn = vim.wo.colorcolumn
+		vim.opt_local.colorcolumn = ""
+
+		-- Apply border hiding if enabled
+		if HIDE_BORDERS then
+			vim.opt.fillchars:append({ vert = " ", horiz = " ", eob = " " })
+			vim.cmd("highlight! link WinSeparator Normal")
+			vim.cmd("highlight! link VertSplit Normal")
+		end
+
 		local side_opts =
-			"setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nomodifiable nonumber norelativenumber signcolumn=no fillchars+=eob:\\ "
+			"setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nomodifiable nonumber norelativenumber signcolumn=no colorcolumn= fillchars+=eob:\\ "
 
 		-- Left padding
 		vim.cmd("leftabove " .. margin .. "vsplit | enew | " .. side_opts)
@@ -70,7 +93,7 @@ local function toggle_centered_buffer()
 	end
 end
 
-vim.keymap.set("n", "<leader>zz", toggle_centered_buffer, { desc = "Toggle Centered Layout" })
+vim.keymap.set("n", "zz", toggle_centered_buffer, { desc = "Toggle Centered Layout" })
 
 -- Compare
 -- Enable diff mode for all windows
