@@ -1,0 +1,18 @@
+-- I commented the "lua/derby/plugins/comment.lua" because it didn't work in c/cpp file(s) well as of now
+return {
+	"numToStr/Comment.nvim",
+	event = { "BufReadPre", "BufNewFile" },
+	config = function()
+		require("Comment").setup({
+			-- Enable keybindings:
+			-- `gcc` -- - toggle line comment
+			-- `gbc` -- - toggle block comment
+			-- `gc` -- (visual) - line comment selection
+			-- `gb` -- (visual) - block comment selection
+			mappings = {
+				basic = true,
+				extra = true,
+			},
+		})
+	end,
+}
