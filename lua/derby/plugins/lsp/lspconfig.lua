@@ -144,7 +144,15 @@ return {
 			},
 		}
 		vim.lsp.config["rust_analyzer"] = { capabilities = capabilities, on_attach = on_attach }
-		vim.lsp.config["sqlls"] = { capabilities = capabilities, on_attach = on_attach }
+		vim.lsp.config["sqlls"] = {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				sqlls = {
+					adapter = "mysql", -- Options: "mysql", "postgres", "sqlite"
+				},
+			},
+		}
 		vim.lsp.config["yamlls"] = { capabilities = capabilities, on_attach = on_attach }
 		vim.lsp.config["pyright"] = { capabilities = capabilities, on_attach = on_attach }
 		vim.lsp.config["terraformls"] = {
