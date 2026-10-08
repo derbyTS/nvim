@@ -25,7 +25,7 @@ local original_colorcolumn = ""
 local HIDE_BORDERS = true
 
 local function toggle_centered_buffer()
-	-- If centered mode is active, close side splits and restore layout
+	-- if centered mode is active, close side splits and restore layout
 	if vim.g.centered_mode then
 		for _, win in ipairs(side_wins) do
 			if vim.api.nvim_win_is_valid(win) then
@@ -34,24 +34,24 @@ local function toggle_centered_buffer()
 		end
 		side_wins = {}
 
-		-- Restore colorcolumn and border highlights
+		-- restore colorcolumn and border highlights
 		vim.opt_local.colorcolumn = original_colorcolumn
-		if HIDE_BORDERS then
-			vim.cmd("highlight link WinSeparator WinSeparator")
-			vim.cmd("highlight link VertSplit VertSplit")
+		if hide_borders then
+			vim.cmd("highlight link winseparator winseparator")
+			vim.cmd("highlight link vertsplit vertsplit")
 		end
 
 		vim.g.centered_mode = false
 		return
 	end
 
-	-- Auto-close NvimTree if visible
+	-- auto-close nvimtree if visible
 	local tree_api_ok, tree_api = pcall(require, "nvim-tree.api")
 	if tree_api_ok and tree_api.tree.is_visible() then
 		tree_api.tree.close()
 	end
 
-	-- Close standard splits
+	-- close standard splits
 	vim.cmd("only")
 
 	local current_win = vim.api.nvim_get_current_win()
@@ -60,54 +60,54 @@ local function toggle_centered_buffer()
 	local margin = math.floor((width - target_width) / 2)
 
 	if margin > 10 then
-		-- Save current colorcolumn and clear it
+		-- save current colorcolumn and clear it
 		original_colorcolumn = vim.wo.colorcolumn
 		vim.opt_local.colorcolumn = ""
 
-		-- Apply border hiding if enabled
-		if HIDE_BORDERS then
+		-- apply border hiding if enabled
+		if hide_borders then
 			vim.opt.fillchars:append({ vert = " ", horiz = " ", eob = " " })
-			vim.cmd("highlight! link WinSeparator Normal")
-			vim.cmd("highlight! link VertSplit Normal")
+			vim.cmd("highlight! link winseparator normal")
+			vim.cmd("highlight! link vertsplit normal")
 		end
 
 		local side_opts =
 			"setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nomodifiable nonumber norelativenumber signcolumn=no colorcolumn= fillchars+=eob:\\ "
 
-		-- Left padding
+		-- left padding
 		vim.cmd("leftabove " .. margin .. "vsplit | enew | " .. side_opts)
 		local left_win = vim.api.nvim_get_current_win()
 
-		-- Focus center
+		-- focus center
 		vim.api.nvim_set_current_win(current_win)
 
-		-- Right padding
+		-- right padding
 		vim.cmd("rightbelow " .. margin .. "vsplit | enew | " .. side_opts)
 		local right_win = vim.api.nvim_get_current_win()
 
 		side_wins = { left_win, right_win }
 
-		-- Focus active buffer
+		-- focus active buffer
 		vim.api.nvim_set_current_win(current_win)
 		vim.g.centered_mode = true
 	end
 end
 
-vim.keymap.set("n", "zz", toggle_centered_buffer, { desc = "Toggle Centered Layout" })
+vim.keymap.set("n", "zz", toggle_centered_buffer, { desc = "toggle centered layout" })
 
--- Compare
--- Enable diff mode for all windows
-vim.keymap.set("n", "<leader>bc", ":windo diffthis<CR>", { noremap = true })
+-- compare
+-- enable diff mode for all windows
+vim.keymap.set("n", "<leader>bc", ":windo diffthis<cr>", { noremap = true })
 
--- Disable diff mode for all windows
-vim.keymap.set("n", "<leader>bcx", ":windo diffoff<CR>", { noremap = true })
+-- disable diff mode for all windows
+vim.keymap.set("n", "<leader>bcx", ":windo diffoff<cr>", { noremap = true })
 
--- Clear search highlighting
-vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>", { noremap = true })
+-- clear search highlighting
+vim.keymap.set("n", "<leader>n", ":nohlsearch<cr>", { noremap = true })
 
 -- nvim tree maximizer
-vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
-vim.keymap.set("n", "<leader>ef", ":NvimTreeFindFile<CR>")
+vim.keymap.set("n", "<leader>e", ":nvimtreetoggle<cr>")
+vim.keymap.set("n", "<leader>ef", ":nvimtreefindfile<cr>")
 
 -- telescope
 vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
@@ -186,6 +186,31 @@ vim.keymap.set("n", "<leader>dclear", ':lua require("dap").clear_breakpoints()<C
 vim.keymap.set("n", "<leader>db", ":DapToggleBreakpoint<CR>", { noremap = true })
 vim.keymap.set("n", "<leader>dsp", ':lua require("dap").repl.open({}, "vsplit")<CR>', { noremap = true, silent = true })
 -- vim.keymap.set("n", "<leader>dc", ":DapContinue<CR>", { noremap = true })
+
+-- C/CPP DAP
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "c", "cpp" },
+	callback = function(ev)
+		local opts = function(desc)
+			return { buffer = ev.buf, desc = desc }
+		end
+
+		-- Memory inspection
+		vim.keymap.set("n", "<leader>dm", function()
+			local var = vim.fn.expand("<cword>")
+			require("dap").repl.execute("memory read --format Y --count 64 &" .. var)
+		end, opts("DAP: Read memory at cursor"))
+
+		-- Stack frame navigation
+		vim.keymap.set("n", "<leader>dk", function()
+			require("dap").repl.execute("up")
+		end, opts("DAP: Move up call stack"))
+
+		vim.keymap.set("n", "<leader>dj", function()
+			require("dap").repl.execute("down")
+		end, opts("DAP: Move down call stack"))
+	end,
+})
 
 -- Start debugging
 vim.keymap.set("n", "<Leader>dc", ':lua require("dap").continue()<CR>', { noremap = true, silent = true })

@@ -66,6 +66,9 @@ return {
 			-- 	vim.cmd([[colorscheme rose-pine]])
 			require("catppuccin").setup({
 				flavour = "macchiato", -- latte, frappe, macchiato, mocha
+				-- flavour = "latte", -- latte, frappe, macchiato, mocha
+				-- flavour = "frappe", -- latte, frappe, macchiato, mocha
+				-- flavour = "mocha", -- latte, frappe, macchiato, mocha
 				-- background = { -- :h background
 				-- 	light = "latte",
 				-- 	dark = "macchiato",
@@ -107,13 +110,17 @@ return {
 				},
 			})
 			vim.cmd([[colorscheme catppuccin]])
-			-- Transparency for floating windows
-			vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-			vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
-
-			-- Reset blending so transparency works
-			vim.o.winblend = 0
-			vim.o.pumblend = 0
+			-- -- Transparency for floating windows
+			-- vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+			-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+			-- -- Added to change unfocused is different
+			-- vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+			-- vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "NONE" })
+			-- vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "NONE" })
+			--
+			-- -- Reset blending so transparency works
+			-- vim.o.winblend = 0
+			-- vim.o.pumblend = 0
 
 			vim.api.nvim_set_hl(0, "TelescopeBorder", { bg = "NONE", fg = "grey" })
 

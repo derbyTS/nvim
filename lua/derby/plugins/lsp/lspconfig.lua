@@ -54,6 +54,9 @@ return {
 			opts.desc = "Show LSP implementations Telescope"
 			keymap.set("n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
 
+			opts.desc = "go to type definition"
+			keymap.set("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts) -- type definition
+
 			opts.desc = "Smart rename"
 			keymap.set("n", "<leader>rn", function()
 				return ":IncRename " .. vim.fn.expand("<cword>")

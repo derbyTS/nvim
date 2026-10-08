@@ -14,7 +14,7 @@ return {
 			[[
 {}, err := {}
 if err != nil {{
-	log.Fatalln(err)
+	log.Println(err)
 }}
     ]],
 			{
@@ -32,7 +32,7 @@ if err != nil {{
 			[[
 {}, err = {}
 if err != nil {{
-	log.Fatalln(err)
+	log.Println(err)
 }}
     ]],
 			{
@@ -50,7 +50,7 @@ if err != nil {{
 			[[
 {}, err := {}
 if err != nil {{
-	log.Fatalln(err)
+	log.Println(err)
 	return
 }}
     ]],
@@ -69,7 +69,7 @@ if err != nil {{
 			[[
 {}, err = {}
 if err != nil {{
-	log.Fatalln(err)
+	log.Println(err)
 	return
 }}
     ]],
